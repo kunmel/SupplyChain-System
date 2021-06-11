@@ -34,7 +34,7 @@ type Product struct {
 	shippingarea string
 	remark string
 }
-type usser struct {
+type User struct {
 	ID string
 	account string
 	password string
@@ -42,7 +42,7 @@ type usser struct {
 	name string
 }
 
-type financing struct {
+type Financing struct {
 	supplier string
 	amount string
 	period string
