@@ -1,7 +1,9 @@
 package routers
 import (
-	"blockchain-real-estate-master/chaincode/blockchain-real-estate/lib"
+	"../lib"
+	"../utils"
 	"encoding/json"
+	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
 	"strconv"
@@ -26,21 +28,95 @@ func StoreOrder (stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	order.TransferID =args[14]
 	order.Status, _ =strconv.Atoi(args[15])
 
-	key:=order.ID
-	bytes, _ := json.Marshal(order)
-	stub.PutState(key, bytes)
+	if err:=utils.WriteLedger(order,stub,lib.OrderKey,[]string{order.ID});err!=nil{
+		return shim.Error(fmt.Sprintf("写入Order失败%s", err))
+	}
+
+	return shim.Success(nil)
 }
 
-func QueryOrder(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	bytes,_:=stub.GetState(args[0])
-	return shim.Success(bytes)
+func QueryOrder(stub shim.ChaincodeStubInterface ,args []string ) pb.Response {
+	var orderList []lib.Order
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.OrderKey, nil)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	for _, v := range results {
+		if v != nil {
+			var order lib.Order
+			err := json.Unmarshal(v, &order)
+			if err != nil {
+				return shim.Error(fmt.Sprintf("QueryOrder-反序列化出错: %s", err))
+			}
+			orderList = append(orderList, order)
+		}
+	}
+	orderListByte, err := json.Marshal(orderList)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("QueryOrder-序列化出错: %s", err))
+	}
+	return shim.Success(orderListByte)
+}
+
+
+func QueryOrderByID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	if len(args)!=1 {
+		return shim.Error(fmt.Sprintf("参数个数!=1"))
+	}
+	return QueryOrder(stub,args)
 }
 
 func QueryOrderByBuyer (stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	if len(args)!=1 {
+		return shim.Error(fmt.Sprintf("参数个数!=1"))
+	}
+	var orderList []lib.Order
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.OrderKey, nil)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	for _, v := range results {
+		if v != nil {
+			var order lib.Order
+			err := json.Unmarshal(v, &order)
+			if err != nil {
+				return shim.Error(fmt.Sprintf("QueryOrder-反序列化出错: %s", err))
+			}
+			if order.Buyer==args[0] {
+				orderList = append(orderList, order)
+			}
+		}
+	}
+	orderListByte, err := json.Marshal(orderList)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("QueryOrder-序列化出错: %s", err))
+	}
+	return shim.Success(orderListByte)
 }
 
 func QueryOrderBySeller (stub shim.ChaincodeStubInterface, args []string) pb.Response {
-
+	var orderList []lib.Order
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.OrderKey, nil)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	for _, v := range results {
+		if v != nil {
+			var order lib.Order
+			err := json.Unmarshal(v, &order)
+			if err != nil {
+				return shim.Error(fmt.Sprintf("QueryOrder-反序列化出错: %s", err))
+			}
+			if order.Seller==args[0] {
+				orderList = append(orderList, order)
+			}
+		}
+	}
+	orderListByte, err := json.Marshal(orderList)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("QueryOrder-序列化出错: %s", err))
+	}
+	return shim.Success(orderListByte)
 }
 
 func UpdateStatus (stub shim.ChaincodeStubInterface, args []string) pb.Response {
