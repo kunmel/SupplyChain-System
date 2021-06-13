@@ -108,3 +108,23 @@ func GetStateByPartialCompositeKeys2(stub shim.ChaincodeStubInterface, objectTyp
 	}
 	return results, nil
 }
+
+func GetStateByPartialCompositeKeys3(stub shim.ChaincodeStubInterface, objectType string, keys []string) (results [][]byte, err error){
+	// 通过主键从区块链查找相关的数据，相当于对主键的模糊查询
+	resultIterator, err := stub.GetStateByPartialCompositeKey(objectType, keys)
+	if err != nil {
+		return nil, errors.New(fmt.Sprintf("%s-获取全部数据出错: %s", objectType, err))
+	}
+	defer resultIterator.Close()
+
+	//检查返回的数据是否为空，不为空则遍历数据，否则返回空数组
+	for resultIterator.HasNext() {
+		val, err := resultIterator.Next()
+		if err != nil {
+			return nil, errors.New(fmt.Sprintf("%s-返回的数据出错: %s", objectType, err))
+		}
+
+		results = append(results, val.GetValue())
+	}
+	return results, nil
+}
