@@ -24,7 +24,7 @@ func StoreUser (stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	return shim.Success(nil)
 }
 
-func QueryUser(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func QueryUser(stub shim.ChaincodeStubInterface) pb.Response {
 	var userList []lib.User
 	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.UserKey, nil)
 	if err != nil {
@@ -45,4 +45,12 @@ func QueryUser(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error(fmt.Sprintf("QueryUser-序列化出错: %s", err))
 	}
 	return shim.Success(userListByte)
+}
+
+func QueryUserByID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.UserKey, args)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
+	return shim.Success(results[0])
 }
