@@ -26,18 +26,24 @@ func StoreFinance (stub shim.ChaincodeStubInterface, args []string) pb.Response{
 	return shim.Success(nil)
 }
 
-func UpdateFinanceStatus (stub shim.ChaincodeStubInterface, args []string) pb.Response{
-	bytes,_:=stub.GetState(args[0])
+func UpdateFinanceStatus (stub shim.ChaincodeStubInterface, args []string) pb.Response{//args[0]:orderid,args[1]:period,arg[2]:status
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.FinancingKey,[]string{args[0],args[1]})
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
 	var financing lib.Financing
-	_=json.Unmarshal(bytes,&financing)
-	financing.Status, _ =strconv.Atoi(args[1])
-	key:=args[0]
-	bytes, _ = json.Marshal(financing)
-	stub.PutState(key, bytes)
+	_=json.Unmarshal(results[0],&financing)
+
+	financing.Status, _ =strconv.Atoi(args[2])
+
+	if err:=utils.WriteLedger(financing,stub,lib.FinancingKey,[]string{financing.OrderID,financing.Period});err!=nil{
+		return shim.Error(fmt.Sprintf("写入Financing失败%s", err))
+	}
+
 	return shim.Success(nil)
 }
 
-func QueryFinance(stub shim.ChaincodeStubInterface, args []string) pb.Response{
+func QueryFinance(stub shim.ChaincodeStubInterface) pb.Response{
 	var financingList []lib.Financing
 	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.FinancingKey, nil)
 	if err != nil {
@@ -58,7 +64,6 @@ func QueryFinance(stub shim.ChaincodeStubInterface, args []string) pb.Response{
 		return shim.Error(fmt.Sprintf("QueryFinance-序列化出错: %s", err))
 	}
 	return shim.Success(financingListByte)
-
 }
 
 func QueryFinanceByStatus(stub shim.ChaincodeStubInterface, args []string) pb.Response{
@@ -90,6 +95,7 @@ func QueryFinanceByStatus(stub shim.ChaincodeStubInterface, args []string) pb.Re
 	return shim.Success(financingListByte)
 }
 
+
 func QueryFinanceByOrderID(stub shim.ChaincodeStubInterface, args []string) pb.Response{
 	if len(args)!=1 {
 		return shim.Error(fmt.Sprintf("参数个数!=1"))
@@ -116,5 +122,7 @@ func QueryFinanceByOrderID(stub shim.ChaincodeStubInterface, args []string) pb.R
 		return shim.Error(fmt.Sprintf("QueryFinanceByOrderID-序列化出错: %s", err))
 	}
 	return shim.Success(financingListByte)
-
 }
+
+
+
