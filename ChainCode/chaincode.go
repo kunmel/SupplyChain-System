@@ -22,7 +22,21 @@ func (t *BlockChainRealEstate) Init(stub shim.ChaincodeStubInterface) pb.Respons
 	}
 	time.Local = timeLocal
 	//初始化默认数据
-	
+	fmt.Println("-----------初始化三种类型的用户-------------")
+	user1:=lib.User{Account: "qiye",Password: "123",ID: "user1",Identity: 1}
+	if err:=utils.WriteLedger(user1,stub,lib.UserKey,[]string{user1.ID});err!=nil{
+		return shim.Error(fmt.Sprintf("写入User失败%s", err))
+	}
+
+	user2:=lib.User{Account: "gongyingshang",Password: "123",ID: "user2",Identity: 2}
+	if err:=utils.WriteLedger(user2,stub,lib.UserKey,[]string{user2.ID});err!=nil{
+		return shim.Error(fmt.Sprintf("写入User失败%s", err))
+	}
+
+	user3:=lib.User{Account: "yinhang",Password: "123",ID: "user3",Identity: 3}
+	if err:=utils.WriteLedger(user3,stub,lib.UserKey,[]string{user3.ID});err!=nil{
+		return shim.Error(fmt.Sprintf("写入User失败%s", err))
+	}
 	return shim.Success(nil)
 }
 
