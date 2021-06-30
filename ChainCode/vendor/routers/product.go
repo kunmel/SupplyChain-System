@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"blockchain-real-estate/chaincode/blockchain-real-estate/utils"
+	"../utils"
 	"fmt"
 	pb "github.com/hyperledger/fabric/protos/peer"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
