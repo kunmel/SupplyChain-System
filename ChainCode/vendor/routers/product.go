@@ -33,17 +33,23 @@ func StoreProduct(stub shim.ChaincodeStubInterface, args []string) pb.Response{
 
 
 func UpdateProductByAmount (stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	bytes,_:=stub.GetState(args[0])
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.ProductKey,[]string{args[0]})
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
+	}
 	var product lib.Product
-	_=json.Unmarshal(bytes,&product)
+	_=json.Unmarshal(results[0],&product)
+
 	product.Amount, _ =strconv.Atoi(args[1])
-	key:=args[0]
-	bytes, _ = json.Marshal(product)
-	stub.PutState(key, bytes)
+
+	if err:=utils.WriteLedger(product,stub,lib.ProductKey,[]string{product.GoodsID});err!=nil{
+		return shim.Error(fmt.Sprintf("写入product失败%s", err))
+	}
+
 	return shim.Success(nil)
 }
 
-func QueryProduct(stub shim.ChaincodeStubInterface ,args []string ) pb.Response {
+func QueryProduct(stub shim.ChaincodeStubInterface ) pb.Response {
 	var productList []lib.Product
 	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.ProductKey, nil)
 	if err != nil {
@@ -64,14 +70,14 @@ func QueryProduct(stub shim.ChaincodeStubInterface ,args []string ) pb.Response 
 		return shim.Error(fmt.Sprintf("QueryProduct-序列化出错: %s", err))
 	}
 	return shim.Success(productListByte)
-
 }
 
 func QueryProductByID(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	if len(args)!=1 {
-		return shim.Error(fmt.Sprintf("参数个数!=1"))
+	results, err := utils.GetStateByPartialCompositeKeys2(stub, lib.ProductKey, args)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("%s", err))
 	}
-	return QueryProduct(stub,args)
+	return shim.Success(results[0])
 }
 
 func QueryProductByGoodType (stub shim.ChaincodeStubInterface ,args []string ) pb.Response{
@@ -188,11 +194,9 @@ func QueryProductBySupplier(stub shim.ChaincodeStubInterface ,args []string ) pb
 		return shim.Error(fmt.Sprintf("QueryProductBySupplier-序列化出错: %s", err))
 	}
 	return shim.Success(productListByte)
-
 }
 
 func DeleteProduct(stub shim.ChaincodeStubInterface, args []string) pb.Response {
-	key:=args[0]
-	stub.DelState(key)
+	utils.DelLedger(stub,lib.ProductKey,args)
 	return shim.Success(nil)
 }
