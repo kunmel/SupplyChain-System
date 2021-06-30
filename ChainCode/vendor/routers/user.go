@@ -1,7 +1,7 @@
 package routers
 import (
 	"../lib"
-	"blockchain-real-estate/chaincode/blockchain-real-estate/utils"
+	"../utils"
 	"encoding/json"
 	"fmt"
 
