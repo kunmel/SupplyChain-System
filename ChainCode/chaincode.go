@@ -4,9 +4,12 @@ import (
 	"fmt"
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	pb "github.com/hyperledger/fabric/protos/peer"
-	"blockchain-real-estate/chaincode/blockchain-real-estate/lib"
-	"blockchain-real-estate/chaincode/blockchain-real-estate/routers"
-	"blockchain-real-estate/chaincode/blockchain-real-estate/utils"
+	"lib"
+	"routers"
+	"utils"
+	//"github.com/togettoyou/blockchain-real-estate/chaincode/blockchain-real-estate/lib"
+	//"github.com/togettoyou/blockchain-real-estate/chaincode/blockchain-real-estate/routers"
+	//"github.com/togettoyou/blockchain-real-estate/chaincode/blockchain-real-estate/utils"
 	"time"
 )
 
@@ -47,7 +50,7 @@ func (t *BlockChainRealEstate) Invoke(stub shim.ChaincodeStubInterface) pb.Respo
 	case "StoreOrder":
 		return routers.StoreOrder(stub,args)
 	case "QueryOrder":
-		return routers.QueryOrder(stub,nil)
+		return routers.QueryOrder(stub)
 	case "QueryOrderByID":
 		return routers.QueryOrderByID(stub, args)
 	case "QueryOrderByBuyer":
@@ -65,7 +68,7 @@ func (t *BlockChainRealEstate) Invoke(stub shim.ChaincodeStubInterface) pb.Respo
 	case "UpdateProductByAmount":
 		return routers.UpdateProductByAmount(stub, args)
 	case "QueryProduct":
-		return routers.QueryProduct(stub, args)
+		return routers.QueryProduct(stub)
 	case "QueryProductByID":
 		return routers.QueryProductByID(stub, args)
 	case "QueryProductByGoodType":
@@ -83,7 +86,7 @@ func (t *BlockChainRealEstate) Invoke(stub shim.ChaincodeStubInterface) pb.Respo
 	case "UpdateFinanceStatus":
 		return routers.UpdateFinanceStatus(stub, args)
 	case "QueryFinance":
-		return routers.QueryFinance(stub, args)
+		return routers.QueryFinance(stub)
 	case "QueryFinanceByStatus":
 		return routers.QueryFinanceByStatus(stub, args)
 	case "QueryFinanceByOrderID":
@@ -91,7 +94,9 @@ func (t *BlockChainRealEstate) Invoke(stub shim.ChaincodeStubInterface) pb.Respo
 	case "StoreUser":
 		return routers.StoreUser(stub, args)
 	case "QueryUser":
-		return routers.QueryUser(stub, args)
+		return routers.QueryUser(stub)
+	case "QueryUserByID":
+		return routers.QueryUserByID(stub,args)
 	default:
 		return shim.Error(fmt.Sprintf("没有该功能: %s", funcName))
 	}
