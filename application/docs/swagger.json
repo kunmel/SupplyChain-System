@@ -1,0 +1,1053 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "基于区块链的钢材供应链融资解决方案api文档",
+        "title": "基于区块链的钢材供应链融资解决方案",
+        "contact": {
+            "name": "togettoyou",
+            "email": "144240096@qq.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/DeleteOrder": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更改订单状态",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "Order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.OrderByIDQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/DeleteProduct": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更改订单状态",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductByNameQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryFinance": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询所有",
+                "parameters": [
+                    {
+                        "description": "Finance",
+                        "name": "Finance",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductByNameQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryFinanceByOrderID": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按订单号查询",
+                "parameters": [
+                    {
+                        "description": "Finance",
+                        "name": "Finance",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.FinanceByOrderIDQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryFinanceByStatus": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按融资状态查询",
+                "parameters": [
+                    {
+                        "description": "Finance",
+                        "name": "Finance",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.FinanceByStatusQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryOrderByBuyer": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按发起企业查询订单内容",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "Order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.OrderByBuyerQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryOrderByID": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按订单ID查询，具体查询某一个订单",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "Order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.OrderByIDQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryOrderByIDTest": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "测试：按订单ID查询，具体查询某一个订单",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryOrderBySeller": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按供货商查询订单内容",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "Order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.OrderBySellerQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryProductByGoodType": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按货品类型查询",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductByGoodTypeQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryProductByID": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按货品ID查询",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductByNameQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryProductByMaterial": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按材料查询",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductByMaterialQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryProductBySupplier": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按供应商查询",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductBySupplierQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryProductByWorkmanship": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "按制作工艺查询",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductByWorkmanshipQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryUser": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "根据账号查询",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.UserByIDQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryUserTest": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "根据账号查询",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.UserByIDQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryUserTestGet": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "根据账号查询",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/StoreFinance": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "存储到数据库",
+                "parameters": [
+                    {
+                        "description": "Finance",
+                        "name": "Finance",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.FinanceRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/StoreOrder": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "存储到数据库",
+                "parameters": [
+                    {
+                        "description": "user",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/StoreProduct": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "存储到数据库",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/UpdateFinanceStatus": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新融资状态",
+                "parameters": [
+                    {
+                        "description": "Finance",
+                        "name": "Finance",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.UpdateStatusRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/UpdateProductByAmount": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新货品数量",
+                "parameters": [
+                    {
+                        "description": "Product",
+                        "name": "Product",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.ProductByAmountUpdateRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/UpdateStatus": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新是否接收状态",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "Order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.UpdateOrderStatusRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/UpdateTransferStatus": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "更新订单物流状态状态",
+                "parameters": [
+                    {
+                        "description": "Order",
+                        "name": "Order",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.UpdateTransferStatusRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "app.Response": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {
+                    "type": "object"
+                },
+                "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "v1.FinanceByOrderIDQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "OrderID": {
+                    "description": "对应订单号",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.FinanceByStatusQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "Status": {
+                    "description": "融资状态",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.FinanceRequestBody": {
+            "type": "object",
+            "properties": {
+                "Amount": {
+                    "description": "申请金额",
+                    "type": "number"
+                },
+                "Desc": {
+                    "description": "申请描述",
+                    "type": "string"
+                },
+                "Feedback": {
+                    "description": "融资反馈",
+                    "type": "string"
+                },
+                "OrderID": {
+                    "description": "对应订单号",
+                    "type": "string"
+                },
+                "Period": {
+                    "description": "申请日期",
+                    "type": "string"
+                },
+                "Status": {
+                    "description": "融资状态",
+                    "type": "string"
+                },
+                "Supplier": {
+                    "description": "申请人",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.OrderByBuyerQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "buyer": {
+                    "description": "发起企业",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.OrderByIDQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "buyer": {
+                    "description": "订单ID",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.OrderBySellerQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "seller": {
+                    "description": "供货商",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.OrderRequestBody": {
+            "type": "object",
+            "properties": {
+                "buyer": {
+                    "description": "订单总金额",
+                    "type": "number"
+                },
+                "price": {
+                    "description": "物流ID",
+                    "type": "string"
+                },
+                "salePeriod": {
+                    "description": "备注",
+                    "type": "integer"
+                },
+                "seller": {
+                    "description": "订单状态",
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.ProductByAmountUpdateRequestBody": {
+            "type": "object",
+            "properties": {
+                "Amount": {
+                    "description": "货品数量",
+                    "type": "integer"
+                },
+                "GoodsID": {
+                    "description": "货品ID",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.ProductByGoodTypeQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "GoodType": {
+                    "description": "货品类型",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.ProductByMaterialQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "price": {
+                    "description": "材料",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.ProductByNameQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "GoodsID": {
+                    "description": "货品ID",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.ProductBySupplierQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "buyer": {
+                    "description": "供应商",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.ProductByWorkmanshipQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "salePeriod": {
+                    "description": "制作工艺",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.ProductRequestBody": {
+            "type": "object",
+            "properties": {
+                "Amount": {
+                    "description": "货品数量",
+                    "type": "integer"
+                },
+                "GoodType": {
+                    "description": "货品类型",
+                    "type": "string"
+                },
+                "GoodsID": {
+                    "description": "货品ID",
+                    "type": "string"
+                },
+                "Name": {
+                    "description": "货品名称",
+                    "type": "string"
+                },
+                "buyer": {
+                    "description": "供应商",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "联系方式",
+                    "type": "string"
+                },
+                "salePeriod": {
+                    "description": "备注",
+                    "type": "string"
+                },
+                "seller": {
+                    "description": "上架时间",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.UpdateOrderStatusRequestBody": {
+            "type": "object",
+            "properties": {
+                "buyer": {
+                    "description": "订单ID",
+                    "type": "string"
+                },
+                "seller": {
+                    "description": "订单状态",
+                    "type": "integer"
+                }
+            }
+        },
+        "v1.UpdateStatusRequestBody": {
+            "type": "object",
+            "properties": {
+                "OrderID": {
+                    "description": "对应订单号",
+                    "type": "string"
+                },
+                "Period": {
+                    "description": "申请日期",
+                    "type": "string"
+                },
+                "Status": {
+                    "description": "融资状态",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.UpdateTransferStatusRequestBody": {
+            "type": "object",
+            "properties": {
+                "buyer": {
+                    "description": "订单ID",
+                    "type": "string"
+                },
+                "price": {
+                    "description": "物流ID",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.User": {
+            "type": "object",
+            "properties": {
+                "ID": {
+                    "description": "ID",
+                    "type": "string"
+                }
+            }
+        },
+        "v1.UserByIDQueryRequestBody": {
+            "type": "object"
+        }
+    }
+}

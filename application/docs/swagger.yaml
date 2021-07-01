@@ -1,0 +1,685 @@
+definitions:
+  app.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+  v1.FinanceByOrderIDQueryRequestBody:
+    properties:
+      OrderID:
+        description: 对应订单号
+        type: string
+    type: object
+  v1.FinanceByStatusQueryRequestBody:
+    properties:
+      Status:
+        description: 融资状态
+        type: string
+    type: object
+  v1.FinanceRequestBody:
+    properties:
+      Amount:
+        description: 申请金额
+        type: number
+      Desc:
+        description: 申请描述
+        type: string
+      Feedback:
+        description: 融资反馈
+        type: string
+      OrderID:
+        description: 对应订单号
+        type: string
+      Period:
+        description: 申请日期
+        type: string
+      Status:
+        description: 融资状态
+        type: string
+      Supplier:
+        description: 申请人
+        type: string
+    type: object
+  v1.OrderByBuyerQueryRequestBody:
+    properties:
+      buyer:
+        description: 发起企业
+        type: string
+    type: object
+  v1.OrderByIDQueryRequestBody:
+    properties:
+      buyer:
+        description: 订单ID
+        type: string
+    type: object
+  v1.OrderBySellerQueryRequestBody:
+    properties:
+      seller:
+        description: 供货商
+        type: string
+    type: object
+  v1.OrderRequestBody:
+    properties:
+      buyer:
+        description: 订单总金额
+        type: number
+      price:
+        description: 物流ID
+        type: string
+      salePeriod:
+        description: 备注
+        type: integer
+      seller:
+        description: 订单状态
+        type: integer
+    type: object
+  v1.ProductByAmountUpdateRequestBody:
+    properties:
+      Amount:
+        description: 货品数量
+        type: integer
+      GoodsID:
+        description: 货品ID
+        type: string
+    type: object
+  v1.ProductByGoodTypeQueryRequestBody:
+    properties:
+      GoodType:
+        description: 货品类型
+        type: string
+    type: object
+  v1.ProductByMaterialQueryRequestBody:
+    properties:
+      price:
+        description: 材料
+        type: string
+    type: object
+  v1.ProductByNameQueryRequestBody:
+    properties:
+      GoodsID:
+        description: 货品ID
+        type: string
+    type: object
+  v1.ProductBySupplierQueryRequestBody:
+    properties:
+      buyer:
+        description: 供应商
+        type: string
+    type: object
+  v1.ProductByWorkmanshipQueryRequestBody:
+    properties:
+      salePeriod:
+        description: 制作工艺
+        type: string
+    type: object
+  v1.ProductRequestBody:
+    properties:
+      Amount:
+        description: 货品数量
+        type: integer
+      GoodType:
+        description: 货品类型
+        type: string
+      GoodsID:
+        description: 货品ID
+        type: string
+      Name:
+        description: 货品名称
+        type: string
+      buyer:
+        description: 供应商
+        type: string
+      price:
+        description: 联系方式
+        type: string
+      salePeriod:
+        description: 备注
+        type: string
+      seller:
+        description: 上架时间
+        type: string
+    type: object
+  v1.UpdateOrderStatusRequestBody:
+    properties:
+      buyer:
+        description: 订单ID
+        type: string
+      seller:
+        description: 订单状态
+        type: integer
+    type: object
+  v1.UpdateStatusRequestBody:
+    properties:
+      OrderID:
+        description: 对应订单号
+        type: string
+      Period:
+        description: 申请日期
+        type: string
+      Status:
+        description: 融资状态
+        type: string
+    type: object
+  v1.UpdateTransferStatusRequestBody:
+    properties:
+      buyer:
+        description: 订单ID
+        type: string
+      price:
+        description: 物流ID
+        type: string
+    type: object
+  v1.User:
+    properties:
+      ID:
+        description: ID
+        type: string
+    type: object
+  v1.UserByIDQueryRequestBody:
+    type: object
+info:
+  contact:
+    email: 144240096@qq.com
+    name: togettoyou
+  description: 基于区块链的钢材供应链融资解决方案api文档
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: 基于区块链的钢材供应链融资解决方案
+  version: "1.0"
+paths:
+  /api/v1/DeleteOrder:
+    post:
+      parameters:
+      - description: Order
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/v1.OrderByIDQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 更改订单状态
+  /api/v1/DeleteProduct:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductByNameQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 更改订单状态
+  /api/v1/QueryFinance:
+    post:
+      parameters:
+      - description: Finance
+        in: body
+        name: Finance
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductByNameQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 查询所有
+  /api/v1/QueryFinanceByOrderID:
+    post:
+      parameters:
+      - description: Finance
+        in: body
+        name: Finance
+        required: true
+        schema:
+          $ref: '#/definitions/v1.FinanceByOrderIDQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按订单号查询
+  /api/v1/QueryFinanceByStatus:
+    post:
+      parameters:
+      - description: Finance
+        in: body
+        name: Finance
+        required: true
+        schema:
+          $ref: '#/definitions/v1.FinanceByStatusQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按融资状态查询
+  /api/v1/QueryOrderByBuyer:
+    post:
+      parameters:
+      - description: Order
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/v1.OrderByBuyerQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按发起企业查询订单内容
+  /api/v1/QueryOrderByID:
+    post:
+      parameters:
+      - description: Order
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/v1.OrderByIDQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按订单ID查询，具体查询某一个订单
+  /api/v1/QueryOrderByIDTest:
+    post:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 测试：按订单ID查询，具体查询某一个订单
+  /api/v1/QueryOrderBySeller:
+    post:
+      parameters:
+      - description: Order
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/v1.OrderBySellerQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按供货商查询订单内容
+  /api/v1/QueryProductByGoodType:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductByGoodTypeQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按货品类型查询
+  /api/v1/QueryProductByID:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductByNameQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按货品ID查询
+  /api/v1/QueryProductByMaterial:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductByMaterialQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按材料查询
+  /api/v1/QueryProductBySupplier:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductBySupplierQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按供应商查询
+  /api/v1/QueryProductByWorkmanship:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductByWorkmanshipQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 按制作工艺查询
+  /api/v1/QueryUser:
+    post:
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UserByIDQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 根据账号查询
+  /api/v1/QueryUserTest:
+    post:
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UserByIDQueryRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 根据账号查询
+  /api/v1/QueryUserTestGet:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 根据账号查询
+  /api/v1/StoreFinance:
+    post:
+      parameters:
+      - description: Finance
+        in: body
+        name: Finance
+        required: true
+        schema:
+          $ref: '#/definitions/v1.FinanceRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 存储到数据库
+  /api/v1/StoreOrder:
+    post:
+      parameters:
+      - description: user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/v1.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 存储到数据库
+  /api/v1/StoreProduct:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 存储到数据库
+  /api/v1/UpdateFinanceStatus:
+    post:
+      parameters:
+      - description: Finance
+        in: body
+        name: Finance
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UpdateStatusRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 更新融资状态
+  /api/v1/UpdateProductByAmount:
+    post:
+      parameters:
+      - description: Product
+        in: body
+        name: Product
+        required: true
+        schema:
+          $ref: '#/definitions/v1.ProductByAmountUpdateRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 更新货品数量
+  /api/v1/UpdateStatus:
+    post:
+      parameters:
+      - description: Order
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UpdateOrderStatusRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 更新是否接收状态
+  /api/v1/UpdateTransferStatus:
+    post:
+      parameters:
+      - description: Order
+        in: body
+        name: Order
+        required: true
+        schema:
+          $ref: '#/definitions/v1.UpdateTransferStatusRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/app.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/app.Response'
+      summary: 更新订单物流状态状态
+swagger: "2.0"
