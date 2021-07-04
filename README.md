@@ -27,17 +27,17 @@ Linux 或者 Mac，连接网络，要求安装了 Docker 和 Docker Compose 以�
 
 ### 3、进入 `deploy` 目录，执行 `./start.sh` 启动区块链网络
 ![image.png](photo/1.png)
-![image.png](photo/2.png)
 
 ### 4、进入 `Supplier-Vue` 目录，执行 `./build.sh` 编译前端
-![image.png](photo/3.png)
+![image.png](photo/2.png)
 
 ### 5、进入 `application` 目录，执行 `./build.sh` 编译后端
-![image.png](photo/4.png)
+![image.png](photo/3.png)
 
 ### 6、在 `application` 目录下，执行 `./start.sh` 启动应用
 
 ### 7、浏览器访问 [http://localhost:8000/web](http://localhost:8000/web)
+![image.png](photo/4.png)
 ![image.png](photo/5.png)
 
 ## 目录结构
