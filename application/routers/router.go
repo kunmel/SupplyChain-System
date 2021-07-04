@@ -25,6 +25,7 @@ func InitRouter() *gin.Engine {
 		apiV1.POST("/QueryOrderByIDTest", v1.QueryOrderByIDTest)
 
 		apiV1.POST("/StoreOrder", v1.StoreOrder)
+		apiV1.POST("/QueryOrder", v1.QueryOrder)
 		apiV1.POST("/QueryOrderByID", v1.QueryOrderByID)
 		apiV1.POST("/QueryOrderByBuyer", v1.QueryOrderByBuyer)
 		apiV1.POST("/QueryOrderBySeller", v1.QueryOrderBySeller)
@@ -34,16 +35,18 @@ func InitRouter() *gin.Engine {
 
 		apiV1.POST("/StoreProduct", v1.StoreProduct)
 		apiV1.POST("/UpdateProductByAmount", v1.UpdateProductByAmount)
+		apiV1.POST("/QueryProduct", v1.QueryProduct)
 		apiV1.POST("/QueryProductByID", v1.QueryProductByID)
 		apiV1.POST("/QueryProductByGoodType", v1.QueryProductByGoodType)
 		apiV1.POST("/QueryProductByMaterial", v1.QueryProductByMaterial)
 		apiV1.POST("/queryDonatingListByGrantee", v1.QueryProductByWorkmanship)
 		apiV1.POST("/QueryProductBySupplier", v1.QueryProductBySupplier)
-		apiV1.POST("/updateDonating", v1.DeleteProduct)
+		apiV1.POST("/DeleteProduct", v1.DeleteProduct)
 
 		apiV1.POST("/StoreFinance", v1.StoreFinance)
 		apiV1.POST("/UpdateFinanceStatus", v1.UpdateFinanceStatus)
 		apiV1.POST("/QueryFinance", v1.QueryFinance)
+		apiV1.POST("/QueryFinanceBySupplier", v1.QueryFinanceBySupplier)
 		apiV1.POST("/QueryFinanceByStatus", v1.QueryFinanceByStatus)
 		apiV1.POST("/QueryFinanceByOrderID", v1.QueryFinanceByOrderID)
 

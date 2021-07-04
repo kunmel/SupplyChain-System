@@ -24,6 +24,11 @@ Vue.use(Router)
  */
 export const constantRouterMap = [
   {
+    path: '/',
+    redirect:'/login',
+    hidden:true
+  },
+  {
     path: '/login',
     name: 'login',
     hidden: true,
@@ -37,11 +42,52 @@ export const constantRouterMap = [
     component: () => import('@/views/error-page/404'),
     hidden: true
   },
+]
+
+export default new Router({
+  // mode: 'history',  require service support
+  // scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
+})
+
+/**
+ * 动态路由： 根据用户角色
+ * @type {Array}
+ */
+export const asyncRouterMap = [
+  { path: '*', redirect: '/404', hidden: true },
   {
-    path: '/',
+    path: '/company',
+    component: () => import('@/views/company/company'),
+    children:[
+      {
+        path: '/',
+        name: 'Goods',
+        component: () => import('../views/company/Home.vue')
+      },
+      {
+        path: '/goods',
+        name: 'Goods',
+        component: () => import('../views/company/Goods.vue')
+      },
+      {
+        path: '/orders',
+        name: 'Orders',
+        component: () => import('../views/company/Orders.vue')
+      },
+      {
+        path: '/home',
+        name: 'Orders',
+        component: () => import('../views/company/Home.vue')
+      }
+
+    ]
+  },
+  {
+    path: '/home',
     // hidden: true,
     component: Layout,
-    redirect: '/home',
+    redirect:'/home/home',
     children: [
       {
         path: 'home',
@@ -80,9 +126,9 @@ export const constantRouterMap = [
     children: [
       {
         path: 'allorder',
-        name: '全部订单',
+        name: '已确认订单',
         component: () => import('@/views/orderlist/allorder'),
-        meta: {icon: 'document', title: '全部订单'}
+        meta: {icon: 'document', title: '已确认订单'}
       },
       {
         path: 'undo',
@@ -116,18 +162,80 @@ export const constantRouterMap = [
       }
     ]
   },
-]
-
-export default new Router({
-  // mode: 'history',  require service support
-  // scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
-
-/**
- * 动态路由： 根据用户角色
- * @type {Array}
- */
-export const asyncRouterMap = [
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '/finance',
+    component: Layout,
+    redirect: '',
+    alwaysShow: true,
+    meta: {
+      title: '融资管理',
+      icon: 's-grid'
+    },
+    children: [
+      {
+        path: 'all',
+        name: '全部融资',
+        component: () => import('@/views/finance/allfinance'),
+        meta: {icon: 'svg-layers', title: '全部融资'}
+      },
+    ]
+  },
+  // {
+  //   path: '/bankpage',
+  //   component: Layout,
+  //   redirect: '/bankpage/undo',
+  //   alwaysShow: true,
+  //   meta: {
+  //     title: '融资管理',
+  //     icon: 's-grid'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'undo',
+  //       name: '未审批融资',
+  //       component: () => import('@/views/bankpage/undo'),
+  //       meta: {icon: 'svg-layers', title: '未审批融资'}
+  //     },
+  //     {
+  //       path: 'done',
+  //       name: '已审批融资',
+  //       component: () => import('@/views/bankpage/'),
+  //       meta: {icon: 'svg-layers', title: '已审批融资'}
+  //     },
+  //   ]
+  // },
+  {
+    path: '/bankpage',
+    component: Layout,
+    redirect:'/bankpage/undo',
+    meta: {
+      icon: 'document',
+      title: 'theme'
+    },
+    children: [
+      {
+        path: 'undo',
+        component: () => import('@/views/bankpage/undo'),
+        name: '未审批融资',
+        meta: {icon: 'svg-layers', title: '未审批融资'}
+      }
+    ]
+  },
+  {
+    path: '/bankpage',
+    component: Layout,
+    meta: {
+      icon: 'document',
+      title: 'theme'
+    },
+    children: [
+      {
+        path: 'done',
+        component: () => import('@/views/bankpage/index'),
+        name: '已审批融资',
+        meta: {icon: 'svg-layers', title: '已审批融资'}
+      }
+    ]
+  },
+  
 ]

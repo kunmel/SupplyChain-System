@@ -1,10 +1,10 @@
 <template>
   <div class="container">
     <!-- 功能，工具栏 -->
-    <div class="btns-group">
+    <!-- <div class="btns-group">
       <el-button type="primary" plain size="small" icon="el-icon-circle-check" @click="handlerDown">接受</el-button>
       <el-button type="primary" plain size="small" icon="el-icon-circle-close" @click="handlerDel">拒绝</el-button>
-    </div>
+    </div> -->
 
     <!-- 列表模式 -->
     <list-model v-if="showModel === 'list'"
@@ -90,32 +90,36 @@ export default {
     downloadFunc(id) {
       console.log(`你要下载的文件id是：${id}`)
     },
-    @confirm('此操作将永久删除该订单, 是否继续?')
+    @confirm('此操作将拒绝该订单, 是否继续?')
     delFunc(id) {
-      let index
-      for(let i = 0; i < this.fileList.length; i++) {
-        if(this.fileList[i].id === id) {
-          index = i
-          break
-        }
-      }
-      this.fileList.splice(index, 1)
-      this.$message({
-        type: 'success',
-        message: '拒绝成功!'
-      })
-      this.checkList = []
+      alert("拒绝成功!")
+      // alert("删除的id："+id)
+    //   let index
+    //   for(let i = 0; i < this.fileList.length; i++) {
+    //     if(this.fileList[i].id === id) {
+    //       index = i
+    //       break
+    //     }
+    //   }
+    //   this.fileList.splice(index, 1)
+    //   this.$message({
+    //     type: 'success',
+    //     message: '拒绝成功!'
+    //   })
+    //   this.checkList = []
     }
   },
   created() {
     getFiles().then(res => {
       this.fileList = res.data
+      console.log("filelist",this.fileList)
     })
   }
 }
 </script>
 
 <style scoped lang="stylus">
+
 .btns-group
   padding 5px 20px 5px 0
 .tool-bar

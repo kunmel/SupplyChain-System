@@ -4,6 +4,10 @@ export function login(userInfo) {
   return axios.post('/login/login', userInfo)
 }
 
+export function register(userInfo) {
+  return axios.post('/login/register', userInfo)
+}
+
 export function userInfo() {
   return axios.post('/user/getInfo')
 }

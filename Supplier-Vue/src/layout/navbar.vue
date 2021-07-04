@@ -20,7 +20,7 @@
           <div class="avatar-wrapper">
             <img class="user-avatar" src="@/assets/provider.png" >
             <div class="username-wrapper">
-              <span class="user-name">{{name}}</span>
+              <span class="user-name">{{this.name}}</span>
               <i class="el-icon-caret-bottom"></i>
             </div>
           </div>
@@ -42,25 +42,25 @@
 <script>
 import { confirm } from '@/decorator/confirm'
 import { mapGetters, mapActions } from 'vuex'
+import { getToken } from '@/common/auth'
 import Screenfull from '@/components/screenfull'
 import ChangeTheme from '@/components/theme'
 export default {
-  name: '',
+  name: getToken(),
   components: {
     Screenfull,
     ChangeTheme
   },
   computed: {
     ...mapGetters([
-      'name',
       'avatar'
-    ])
+    ]),
   },
   methods: {
     ...mapActions({
       userLogout: 'logout'
     }),
-    @confirm('退出系统？')
+    
     logout() {
       const loading = this.$loading({
         lock: true

@@ -3,100 +3,130 @@
     <el-table
       ref="multipleTable"
       class="my-table"
-      :data="tableData"
-      style="width: 100%"
+      :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+      style="width: 100%,height: 100%"
       @sort-change="doSortChange"
       @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="50"></el-table-column>
       <el-table-column type="index" label="ID"></el-table-column>
 
-      <el-table-column property="buyer" align="center" label="发起企业"  >
+      <el-table-column property="Buyer" align="center" label="发起企业"  >
       </el-table-column>
 
-      <el-table-column property="goodsname" align="center" label="对应货品"  >
+      <el-table-column property="Goodsname" align="center" label="对应货品"  >
+      </el-table-column>
+<!-- 
+
+      <el-table-column property="Standards" align="center" label="货品规格"  >
+      </el-table-column> -->
+
+      <el-table-column property="Goodsnum" align="center" label="商品总量" sortable="custom"  >
       </el-table-column>
 
-      <el-table-column property="createtime" align="center" label="发起时间" sortable="custom"  >
+      <el-table-column property="Orderamount" align="center" label="商品总金额" sortable="custom"  >
       </el-table-column>
       
-      <el-table-column property="deadline" align="center" label="截止时间" sortable="custom" >
+      <el-table-column property="Deadline" align="center" label="截止时间" sortable="custom" >
       </el-table-column>
 
       
 
       <!-- 可操作 -->
-      <el-table-column align="center" width="220" label="操作">
+      <el-table-column align="center" width="300" label="操作">
         <template slot-scope="scope">
-          <el-button plain size="mini" @click="clickFileName(scope.row)">查看详情</el-button>
+          <el-button plain size="mini" @click="clickFileName(scope.row)">详情</el-button>
+          <el-button plain size="mini" @click="gotofinace(scope.row)">融资</el-button>
           <el-button plain size="mini" @click="delOne(scope.row)">拒绝</el-button>
         </template>
       </el-table-column>
     </el-table>
-
+      <el-pagination background layout="prev, pager, next" :page-size="pagesize" :total="this.total" @current-change="current_change" class="page">
+		</el-pagination>
     <!-- 素材详情时的弹窗 -->
-    <el-dialog title="素材详情"
+    <el-dialog title="订单详情"
       class="detail-dialog"
       :visible.sync="showDetailDialog"
       :close-on-click-modal="false"
       :close-on-press-escape="false">
       <el-form class="detail-form" :model="detailForm">
-        <el-form-item label="发起企业：" prop="buyer" label-width="100px">
-          <span>{{detailForm.buyer}}</span>
+        <el-form-item label="订单ID：" prop="ID" label-width="100px">
+          <span>{{detailForm.ID}}</span>
         </el-form-item>
-        <el-form-item label="对应货品：" prop="goodsname" label-width="100px">
-          <span>{{detailForm.goodsname}}</span>
+        <el-form-item label="发起企业：" prop="Buyer" label-width="100px">
+          <span>{{detailForm.Buyer}}</span>
         </el-form-item>
-        <el-form-item label="货品数量：" prop="goodsnum" label-width="100px">
-          <span>{{detailForm.goodsnum}}</span>
+        <el-form-item label="对应货品：" prop="Goodsname" label-width="100px">
+          <span>{{detailForm.Goodsname}}</span>
         </el-form-item>
-        <el-form-item label="订单总金额：" prop="orderamount" label-width="100px">
-          <span>{{detailForm.orderamount}}</span>
+        <el-form-item label="收货地址：" prop="Address" label-width="100px">
+          <span>{{detailForm.Address}}</span>
         </el-form-item>
-        <el-form-item label="发起时间：" prop="createtime" label-width="100px">
-          <span>{{detailForm.createtime}}</span>
+        <el-form-item label="货品数量：" prop="Goodsnum" label-width="100px">
+          <span>{{detailForm.Goodsnum}}</span>
         </el-form-item>
-        <el-form-item label="截止时间：" prop="deadline" label-width="100px">
-          <span>{{detailForm.deadline }}</span>
+        <el-form-item label="订单总金额：" prop="Orderamount" label-width="100px">
+          <span>{{detailForm.Orderamount}}</span>
         </el-form-item>
-        <el-form-item label="订单备注：" prop="remark" label-width="100px">
-          <span>{{detailForm.remark}}</span>
+        <el-form-item label="发起时间：" prop="Createtime" label-width="100px">
+          <span>{{detailForm.Createtime}}</span>
+        </el-form-item>
+        <el-form-item label="截止时间：" prop="Deadline" label-width="100px">
+          <span>{{detailForm.Deadline }}</span>
+        </el-form-item>
+        <el-form-item label="订单备注：" prop="Remark" label-width="100px">
+          <span>{{detailForm.Remark}}</span>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="">
-        <el-button @click="accept()">接受</el-button>
-        <el-button @click="delOne()">删 除</el-button>
-      </div>
+      <!-- <div slot="footer" class="">
+        <el-button @click="accept()">去融资</el-button>
+        <el-button @click="delOne()">拒绝</el-button>
+      </div> -->
+      <!--   -->
     </el-dialog>
 
-    <!-- 图片查看，大图弹窗 -->
-    <el-dialog
-      class="img-dialog"
-      title="图片详情"
-      top="10vh"
-      :visible.sync="showImgDialog"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      :show-close="true">
-      <el-image :src="imgDialogSrc" fit="contain">
-        <div slot="error" class="image-slot">
-          <i class="el-icon-picture-outline" style="font-size: 100px"></i>
-        </div>
-        <div slot="placeholder" class="image-slot">
-          加载中<span class="dot">...</span>
-        </div>
-      </el-image>
+    <el-dialog title="去融资"
+    class="detail-dialog"
+    :visible.sync="showFinance"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false">
+
+      <el-form class="detail-form" :model="financeForm" ref="financeForm" :rules="rules"> 
+            <el-form-item label="融资金额" :label-width="formLabelWidth" prop="Financetotal">
+              <el-input v-model="financeForm.Financetotal" autocomplete="off"></el-input>
+            </el-form-item>
+    
+            <el-form-item label="融资时间" :label-width="formLabelWidth" prop="Financetime">
+                <div class="block">
+                  <span class="demonstration">默认</span>
+                  <el-date-picker
+                    v-model="financeForm.Financetime"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    value-format="yyyy-MM-dd">
+                  </el-date-picker>
+                </div>
+            </el-form-item>
+
+          <el-form-item label="融资描述" :label-width="formLabelWidth" prop="Financedesc">
+            <el-input type="textarea" :autosize="{ minRows: 4, maxRows: 6}" placeholder="请输入内容" v-model="financeForm.Financedesc">
+            </el-input>
+          </el-form-item>
+      </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary"
-          @click="downloadImg"
-          size="mini">下&nbsp;&nbsp;&nbsp;载</el-button>
+        <el-button @click="showFinance = false">取 消</el-button>
+        <el-button type="primary" @click="StoreFinance('financeForm')">确 定</el-button>
       </div>
+
     </el-dialog>
 
   </div>
 </template>
 
 <script>
-import { getUndoTable } from '@/api/excel'
+import { UpdateStatus,StoreFinance,QueryOrderBySeller } from '@/api/excel'
+import { getToken,getUserID,getUserName } from '@/common/auth'
 export default {
   props: {
     nowPid: {},
@@ -119,14 +149,37 @@ export default {
     return {
       // 素材详情
       showDetailDialog: false,
+      showFinance:false,
       // 素材详情里面的内容
       detailForm: {},
+      //融资
+      financeForm : {
+        Financetotal:'',
+        Financetime:'',
+        Financedesc:'本人xxx经营xxx公司，x年来经营状况xx。2020年营业额xx万元。 本人抵押物价值x万元，分别为:xxx。现因xxx原因，特申请贷款，请给予批准。'
+      },
+      //row
+      row:{},
       tableData:[],
       multipleSelection: this.selectionArr,
       /* 显示图片弹窗 */
       showImgDialog: false,
       imgIdDialog: 0,
-      imgDialogSrc: ''
+      imgDialogSrc: '',
+      total:0,
+      currentPage:1,
+      pagesize:20,
+      rules: {
+        Financetotal: [
+          { required: true, message: '请输入融资金额', trigger: 'blur' }
+        ],
+        Financetime: [
+          { required: true, message: '请选择融资时间', trigger: 'blur' }
+        ],
+        Financedesc: [
+          { required: true, message: '请输入融资描述', trigger: 'blur' }
+        ],
+      }
     }
   },
   watch: {
@@ -138,6 +191,9 @@ export default {
     accept() {
 
     },
+        current_change(currentPage){
+      this.currentPage = currentPage;
+      },
     // 排序
     doSortChange({ column, prop, order }) {
       let _order
@@ -157,11 +213,24 @@ export default {
       })
     },
     delOne(row) {
-      let _arr = []
-      _arr.push(row)
-      this.$refs.multipleTable.clearSelection()
-      this.toggleSelection(_arr)
-      this.$emit('delOne', row.id)
+      // let _arr = []
+      // _arr.push(row)
+      // this.$refs.multipleTable.clearSelection()
+      // this.toggleSelection(_arr)
+      //this.$emit('delOne', row.ID)
+       let data = {
+                ID:this.row.ID,
+                Status:'3',
+              }
+
+              UpdateStatus(data).then(res => {
+                console.log("UpdateStatus",res)
+                this.$message({
+                  message: '拒绝订单成功',
+                  type: 'success'
+                });
+                this.$router.push({ path: "/orderlist/allorder" });
+              })
     },
     /* 勾选项同步 */
     toggleSelection(rows) {
@@ -192,6 +261,61 @@ export default {
       console.log(this.$parent.$data.checkList)
       // this.$parent.$data.fileList = this.tableData
     },
+    gotofinace(row){
+        let jsonStr = JSON.stringify(row)
+        this.row = JSON.parse(jsonStr);
+        this.showFinance = true
+    },
+    StoreFinance(formName){
+        this.$refs[formName].validate((valid) => {
+          if(valid) {
+            this.showFinance = false
+            let period = this.financeForm.Financetime[0] + '-' + this.financeForm.Financetime[1]
+            let data = {
+              OrderID:this.row.ID,
+              Amount:this.financeForm.Financetotal,
+              Period:period,
+              Desc: this.financeForm.Financedesc,
+              Supplier: this.row.Seller,
+              Status:'0',
+              Feedback:''
+            }
+
+            StoreFinance(data).then(res => {
+              console.log("StoreFinance",res)
+              this.$message({
+                message: '融资申请成功',
+                type: 'success'
+              });
+
+              let data = {
+                ID:this.row.ID,
+                Status:'0',
+              }
+
+              UpdateStatus(data).then(res => {
+                console.log("UpdateStatus",res)
+                this.$message({
+                  message: '更改订单状态成功',
+                  type: 'success'
+                });
+                this.$router.push({ path: "/finance/all" });
+              })
+
+            })
+
+
+
+            // alert("ID:"+params.orderID+"金额："+params.amount+"时间："+params.period+"描述："+params.desc)
+            //alert("申请成功!")
+            // addOrg(_data).then( res => {
+            //   console.log(res)
+            // })
+          } else {
+            return false
+          }
+        })
+    },
     // 点击文件名
     clickFileName(row) {
       // 如果是目录
@@ -208,10 +332,25 @@ export default {
       }
     },
     getData() {
-      getUndoTable().then(res => {
-        console.log(res)
-        this.tableData = res.data
+      let data = {
+        Seller:getToken()
+      }
+      QueryOrderBySeller(data).then(res => {
+        console.log("QueryOrderBySeller",res)
+      
+        let len=res.length;
+        for(var j = 0; j < len; j++) {
+          if(res[j].Status == 0){
+            this.tableData.push(res[j])
+          }
+        }
+        this.total = this.tableData.length
       })
+      // getMergeTable().then(res => {
+      //   console.log(res)
+      //   this.tableData = res.data
+      //   this.total = res.data.length
+      // })
     },
   },
   created() {
@@ -225,6 +364,10 @@ export default {
 </script>
 
 <style scoped>
+.page {
+    margin-top: 20px;
+    text-align: center
+    }
 .my-table /deep/ th {
   background: transparent !important;
   font-weight: normal;

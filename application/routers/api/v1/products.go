@@ -14,16 +14,18 @@ import (
 type ProductRequestBody struct {
 	GoodsID			string  `json:"GoodsID"` //货品ID
 	Name 			string  `json:"Name"` //货品名称
-	GoodType		string  `json:"GoodType"` //货品类型
+	GoodType		int  `json:"GoodType"` //货品类型
 	Amount			int     `json:"Amount"`   //货品数量
-	Standards       string  `json:"seller"`       //规格
-	Material       	string  `json:"price"`        //材料
-	Workmanship   	string  `json:"salePeriod"`   //制作工艺
-	Supplier 		string  `json:"buyer"` //供应商
-	AddDate        	string  `json:"seller"`       //上架时间
-	Tel      		string  `json:"price"`        //联系方式
-	ShippingArea    string  `json:"salePeriod"`   //发货地区
-	Remark 			string  `json:"salePeriod"`   //备注
+	Price 			int		`json:"Price"`//价格
+	Standards       string  `json:"Standards"`       //规格
+	Material       	string  `json:"Material"`        //材料
+	Workmanship   	string  `json:"Workmanship"`   //制作工艺
+	Supplier 		string  `json:"Supplier"` //供应商
+	SupplierID		string	`json:"SupplierID"`
+	AddDate        	string  `json:"AddDate"`       //上架时间
+	Tel      		string  `json:"Tel"`        //联系方式
+	ShippingArea    string  `json:"ShippingArea"`   //发货地区
+	Remark 			string  `json:"Remark"`   //备注
 }
 
 type ProductByNameQueryRequestBody struct {
@@ -40,15 +42,15 @@ type ProductByGoodTypeQueryRequestBody struct {
 }
 
 type ProductByMaterialQueryRequestBody struct {
-	Material       	string  `json:"price"`        //材料
+	Material       	string  `json:"Material"`        //材料
 }
 
 type ProductByWorkmanshipQueryRequestBody struct {
-	Workmanship   	string  `json:"salePeriod"`   //制作工艺
+	Workmanship   	string  `json:"Workmanship"`   //制作工艺
 }
 
 type ProductBySupplierQueryRequestBody struct {
-	Supplier 		string  `json:"buyer"` //供应商
+	Supplier 		string  `json:"Supplier"` //供应商
 }
 
 // @Summary 存储到数据库
@@ -69,22 +71,41 @@ func StoreProduct(c *gin.Context) {
 		appG.Response(http.StatusBadRequest, "失败", "Product货品名称Name和供应商Supplier不能为空")
 		return
 	}
+	var bodyBytes1 [][]byte
+
+	//调用智能合约
+	resp1, err := bc.ChannelQuery("QueryProduct", bodyBytes1)
+	if err != nil {
+	   appG.Response(http.StatusInternalServerError, "查询失败", err.Error())
+	   return
+	}
+	// 反序列化json
+	var data1 []map[string]interface{}
+	if err = json.Unmarshal(bytes.NewBuffer(resp1.Payload).Bytes(), &data1); err != nil {
+	   appG.Response(http.StatusInternalServerError, "反序列化失败", err.Error())
+	   return
+	}
+
+	body.GoodsID = "product" + strconv.Itoa(len(data1)+1)
+	fmt.Printf("map值为%v\n", body.GoodsID)
 	var bodyBytes [][]byte
 	bodyBytes = append(bodyBytes, []byte(body.GoodsID))
 	bodyBytes = append(bodyBytes, []byte(body.Name))
-	bodyBytes = append(bodyBytes, []byte(body.GoodType))
+	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.GoodType)))
 	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.Amount)))
+	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.Price)))
 	bodyBytes = append(bodyBytes, []byte(body.Standards))
 	bodyBytes = append(bodyBytes, []byte(body.Material))
 	bodyBytes = append(bodyBytes, []byte(body.Workmanship))
 	bodyBytes = append(bodyBytes, []byte(body.Supplier))
+	bodyBytes = append(bodyBytes, []byte(body.SupplierID))
 	bodyBytes = append(bodyBytes, []byte(body.AddDate))
 	bodyBytes = append(bodyBytes, []byte(body.Tel))
 	bodyBytes = append(bodyBytes, []byte(body.ShippingArea))
 	bodyBytes = append(bodyBytes, []byte(body.Remark))
 
 	//调用智能合约
-	_, err := bc.ChannelExecute("StoreProduct", bodyBytes)
+	_, err = bc.ChannelExecute("StoreProduct", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
@@ -118,6 +139,42 @@ func UpdateProductByAmount(c *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, "成功", fmt.Sprintf("更新货品数量成功"))
+}
+
+// @Summary 查询全部货品
+// @Produce  json
+// @Success 200 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /api/v1/QueryProduct [post]
+func QueryProduct(c *gin.Context) {
+	appG := app.Gin{C: c}
+	body := new(ProductByNameQueryRequestBody)
+	//解析Body参数
+	if err := c.ShouldBind(body); err != nil {
+		appG.Response(http.StatusBadRequest, "失败", fmt.Sprintf("参数出错%s", err.Error()))
+		return
+	}
+	var bodyBytes [][]byte
+
+	//调用智能合约
+	resp, err := bc.ChannelQuery("QueryProduct", bodyBytes)
+	if err != nil {
+		appG.Response(http.StatusInternalServerError, "失败", err.Error())
+		return
+	}
+	// 反序列化json
+	var data []map[string]interface{}
+	var data1 map[string]interface{}
+	if err = json.Unmarshal(bytes.NewBuffer(resp.Payload).Bytes(), &data); err != nil {
+		if err = json.Unmarshal(bytes.NewBuffer(resp.Payload).Bytes(), &data1); err != nil{
+			appG.Response(http.StatusInternalServerError, "失败", err.Error())
+			return
+		}else {
+			appG.Response(http.StatusOK, "成功", data1)
+		}
+	}else {
+		appG.Response(http.StatusOK, "成功", data)
+	}
 }
 
 // @Summary 按货品ID查询

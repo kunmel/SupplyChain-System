@@ -24,7 +24,7 @@
         <el-col :span="6">
         <div class="home-detail-item" style="background: #2196f3"  >
           <div style="padding: 30px 0 0px 0;text-align: center;font-size: 35px;color: white;">{{'更新时间'}}</div>
-          <div style="padding: 10px 0 0px 0;text-align: center;font-size: 30px;color: white;">{{'待改'}}</div>
+          <!-- <div style="padding: 10px 0 0px 0;text-align: center;font-size: 30px;color: white;">{{'待改'}}</div> -->
         </div>
         </el-col>
     </el-row>
@@ -43,12 +43,12 @@
       <el-col :span="12">
         <div class="financing-sprinkled">
           <div class="title">
-            <p class="title-value">投资金额及融资期限分布图示</p>
+            <p class="title-value">借贷金额及融资期限分布图示</p>
           </div>
           <div class="content" ref="">
             <!-- 投资 -->
             <div class="investment">
-              <span class="title">投资金额比例</span>
+              <span class="title">借贷金额比例</span>
               <investment-pie width="100%" height="50%"></investment-pie>
               <div class="detail">
                 <span class="detail-item">
@@ -75,7 +75,7 @@
             </div>
             <!-- 融资 -->
             <div class="financing">
-              <span class="title">融资期限</span>
+              <span class="title">借贷期限</span>
               <financing-pie width="100%" height="50%"></financing-pie>
               <div class="detail">
                 <span class="detail-item">
@@ -173,18 +173,18 @@
         console.log('获取home-total出现异常')
       })
       // 获取 detailItem
-      getrefreshDate().then(resp => {
-        this.refreshDate = resp.data
-      }).catch(() => {
-        console.log('获取detailItem出现异常')
-      })
-      // 获取投资榜
-      getRank().then(resp => {
-        this.rankList = resp.data
-        this._initScroll()
-      }).catch(() => {
-        console.log('获取rankList出现异常')
-      })
+      // getrefreshDate().then(resp => {
+      //   this.refreshDate = resp.data
+      // }).catch(() => {
+      //   console.log('获取detailItem出现异常')
+      // })
+      // // 获取投资榜
+      // getRank().then(resp => {
+      //   this.rankList = resp.data
+      //   this._initScroll()
+      // }).catch(() => {
+      //   console.log('获取rankList出现异常')
+      // })
     },
     mounted() {},
     updated() {

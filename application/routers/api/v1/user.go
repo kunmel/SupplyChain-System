@@ -122,19 +122,21 @@ func QueryUser(c *gin.Context) {
 	var existAcc = 0
 	for i:=0; i<len(data); i++{
 		//fmt.Printf("%s\n", m[i])
-		for _, v := range data[i]{
-			if v == body.Account {
+		for k, v := range data[i]{
+			if k == "Account" && v == body.Account {
 				existAcc++
-				for _, va := range data[i]{
-					if va == body.Password {
-						delete(data[i], "Password")
-						delete(data[i], "Name")
-						appG.Response(http.StatusOK, "密码正确", data[i])
-						fmt.Printf("map值为%v\n", data[i])
-						return
-					} else {
-						appG.Response(http.StatusBadRequest, "错误", fmt.Sprintf("密码错误"))
-						return
+				for ke, va := range data[i]{
+					if ke == "Password" {
+						if va == body.Password {
+							delete(data[i], "Password")
+							delete(data[i], "Name")
+							appG.Response(http.StatusOK, "密码正确", data[i])
+							fmt.Printf("map值为%v\n", data[i])
+							return
+						}else {
+							appG.Response(http.StatusBadRequest, "错误", fmt.Sprintf("密码错误"))
+							return
+						}
 					}
 				}
 			}

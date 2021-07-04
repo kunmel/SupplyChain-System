@@ -6,6 +6,6 @@
  * @return   {Boolean}                    [description]
  */
 export function isValidUsername(str) {
-  const usernameMap = ['admin', 'lucy']
+  const usernameMap = ['supplier', 'bank' , 'company']
   return usernameMap.indexOf(str.trim()) >= 0
 }

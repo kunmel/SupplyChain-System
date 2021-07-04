@@ -7,43 +7,56 @@
           <h3 class="title">货品信息</h3>
           <!-- 基本信息-表单内容 -->
           <el-form class="basic-form" ref="basicForm" :model="basicForm" :rules="rules" label-width="100px">
-            <el-form-item label="货品名称" prop="name">
-              <el-input v-model="basicForm.name"></el-input>
+            <el-form-item label="货品名称" prop="Name">
+              <el-input v-model="basicForm.Name"></el-input>
             </el-form-item>
-            <el-form-item label="货品规格" prop="standards">
-              <el-input v-model="basicForm.standards"></el-input>
+            <el-form-item label="货品类型" :label-width="formLabelWidth">
+              <el-select v-model="basicForm.Goodtype" placeholder="请选择货品类型">
+                <el-option label="钢材" value="1"></el-option>
+                <el-option label="木方" value="2"></el-option>
+                <el-option label="烧板砖" value="3"></el-option>
+              </el-select>
             </el-form-item>
-            <el-form-item label="原材料" prop="material">
-              <el-input v-model="basicForm.material"></el-input>
+            <el-form-item label="货品库存" prop="Amount">
+              <el-input v-model="basicForm.Amount"></el-input>
             </el-form-item>
-            <el-form-item label="制作工艺" prop="workmanship">
-              <el-input v-model="basicForm.workmanship"></el-input>
+            <el-form-item label="货品规格" prop="Standards">
+              <el-input v-model="basicForm.Standards"></el-input>
             </el-form-item>
-            <el-form-item label="供应商" prop="supplier">
-              <el-input v-model="basicForm.supplier"></el-input>
+              <el-form-item label="货品单价" prop="Price">
+              <el-input v-model="basicForm.Price"></el-input>
             </el-form-item>
-            <el-form-item label="联系方式" prop="tel">
-              <el-input v-model="basicForm.tel"></el-input>
+            <el-form-item label="原材料" prop="Material">
+              <el-input v-model="basicForm.Material"></el-input>
+            </el-form-item>
+            <el-form-item label="制作工艺" prop="Workmanship">
+              <el-input v-model="basicForm.Workmanship"></el-input>
+            </el-form-item>
+            <!-- <el-form-item label="供应商" prop="Supplier">
+              <el-input v-model="basicForm.Supplier"></el-input>
+            </el-form-item> -->
+            <el-form-item label="联系方式" prop="Tel">
+              <el-input v-model="basicForm.Tel"></el-input>
             </el-form-item>
             <el-form-item label="所在地域" required>
               <el-col :span="11">
-                <el-form-item prop="region1">
-                  <el-select v-model="basicForm.region1" placeholder="请选择" @change="chooseProvince">
-                    <el-option v-for="item of basicForm.region1List" :label="item.label" :key="item.index" :value="item.value"></el-option>
+                <el-form-item prop="Region1">
+                  <el-select v-model="basicForm.Region1" placeholder="请选择" @change="chooseProvince">
+                    <el-option v-for="item of basicForm.Region1List" :label="item.label" :key="item.index" :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col class="line" :span="1">&nbsp;-</el-col>
               <el-col :span="11">
-                <el-form-item prop="region2">
-                  <el-select v-model="basicForm.region2" placeholder="请选择" @change="chooseCity">
-                    <el-option v-for="item of basicForm.region2List" :label="item.label" :key="item.index" :value="item.value"></el-option>
+                <el-form-item prop="Region2">
+                  <el-select v-model="basicForm.Region2" placeholder="请选择" @change="chooseCity">
+                    <el-option v-for="item of basicForm.Region2List" :label="item.label" :key="item.index" :value="item.value"></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
             </el-form-item>
-            <el-form-item label="备注" prop="remark">
-              <el-input type="textarea" v-model="basicForm.remark"></el-input>
+            <el-form-item label="备注" prop="Remark">
+              <el-input type="textarea" v-model="basicForm.Remark"></el-input>
             </el-form-item>            
             <el-form-item>
               <el-button type="primary" @click="submitbasicForm('basicForm')">保存</el-button>
@@ -58,55 +71,70 @@
 </template>
 
 <script>
-import { provinceAndCityData } from 'element-china-area-data'
+import { provinceAndCityData,CodeToText } from 'element-china-area-data'
+import { StoreProduct} from '@/api/excel'
+import { getToken,getUserID,getUserName } from '@/common/auth'
 export default {
   data() {
     return {
       activeName: 'first',
+      address:'',
       basicForm: {
-        name: '',
-        standards: '',
-        material: '',
-        workmanship: '',
-        supplier: '',
-        region1: '',
-        region1List: [],
-        region2: '',
-        region2List: [],
-        adddate: '',
-        tel: '',
-        remark: '',
-        shippingarea:''
+        Name: '',
+        Goodtype:'',
+        Amount:'',
+        Standards: '',
+        Material: '',
+        Price:'',
+        Workmanship: '',
+        Supplier: '',
+        Region1: '',
+        Region1List: [],
+        Region2: '',
+        Region2List: [],
+        Adddate: '',
+        Tel: '',
+        Remark: '',
+        Shippingarea:''
       },
       content: '',
       // 基本信息验证规则
       rules: {
-        name: [
+        Name: [
           { required: true, message: '请输入货品名称', trigger: 'blur' },
           { min: 1, max: 20, message: '长度在 1 到 20 个字符', trigger: 'blur' }
         ],
-        standards: [
+        Standards: [
           { required: true, message: '请输入货品规格', trigger: 'blur' }
         ],
-        material: [
+        Amount: [
+          { required: true, message: '请输入货品库存', trigger: 'blur' }
+        ],
+        Price: [
+          {  required: true, message: '请输入货品单价', trigger: 'blur' }
+        ],
+        Goodtype: [
+          { required: true, message: '请选择货品类型', trigger: 'blur' }
+        ],
+        Material: [
           { required: true, message: '请输入货品原材料', trigger: 'blur' }
         ],
-        workmanship: [
+        Workmanship: [
           { required: true, message: '请输入制作工艺', trigger: 'blur' }
         ],
-        region1: [
+        Region1: [
           { required: true, message: '请选择地区', trigger: 'blur' }
         ],
-        region2: [
+        Region2: [
           { required: true, message: '请选择城市', trigger: 'blur' }
         ],
-        supplier: [
-          { required: true, message: '请输入供货商名称', trigger: 'blur' }
-        ],
-        tel: [
+        // Supplier: [
+        //   { required: true, message: '请输入供货商名称', trigger: 'blur' }
+        // ],
+        Tel: [
           { required: true, message: '请输入联系电话', trigger: 'blur' }
         ],
-        remarks: [
+        Remarks: [
           { max: 200, message: '200 字以内，非必填', trigger: 'blur' }
         ]
       }
@@ -136,37 +164,63 @@ export default {
     },
     // 省-选择
     chooseProvince(val) {
-      this.basicForm.region1 = val
-      this.basicForm.region2 = ''
-      let _provinceList = this.basicForm.region1List
+      this.basicForm.Region1 = val
+      this.address = CodeToText[val]
+      this.basicForm.Region2 = ''
+      let _provinceList = this.basicForm.Region1List
       for(let provinceItem of _provinceList) {
         if(val === provinceItem.value) {
-          this.basicForm.region2List = provinceItem.children
+  
+          this.basicForm.Region2List = provinceItem.children
           break
         }
       }
     },
     // 城市-选择
     chooseCity(val) {
-      this.basicForm.region2 = val
-      this.basicForm.shippingarea = this.basicForm.region1 + this.basicForm.region2
+      this.basicForm.Region2 = val
+      this.address = this.address + CodeToText[val]
+      this.basicForm.Shippingarea = this.basicForm.Region1 + this.basicForm.Region2
     },
     // 基本信息提交
     submitbasicForm(formName) {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      if (month < 10) {
+      month = '0' + month;
+      }
+      if (day < 10) {
+      day = '0' + day;
+      }
+      var nowDate = year + '-'+ month +'-' + day;
       this.$refs[formName].validate((valid) => {
         if(valid) {
-          let params = {
-            name: this.basicForm.name,
-            standards: this.basicForm.standards,
-            material: this.basicForm.material,
-            workmanship: this.basicForm.workmanship,
-            supplier: this.basicForm.supplier,
-            adddate: this.basicForm.adddate,
-            tel: this.basicForm.tel,
-            shippingarea: this.basicForm.shippingarea,
-            remark: this.basicForm.remark,
+          
+          let data = {
+            Goodtype:Number(this.basicForm.Goodtype),
+            Amount:Number(this.basicForm.Amount),
+            Price:Number(this.basicForm.Price),
+            Name: this.basicForm.Name,
+            Standards: this.basicForm.Standards,
+            Material: this.basicForm.Material,
+            Workmanship: this.basicForm.Workmanship,
+            Supplier: getToken(),
+            Adddate: nowDate,
+            Tel: this.basicForm.Tel,
+            Shippingarea: this.address,
+            Remark: this.basicForm.Remark,
           }
-          console.log(params)
+        StoreProduct(data).then(res => {
+        console.log("StoreProduct",res)
+          this.$message({
+          message: '上架商品成功',
+          type: 'success'
+        });
+        this.$router.push({ path: "/goods/allogoods" });
+         })
+          //console.log(params)
           // addOrg(_data).then( res => {
           //   console.log(res)
           // })
@@ -187,7 +241,7 @@ export default {
     }
   },
   created() {
-    this.basicForm.region1List = provinceAndCityData
+    this.basicForm.Region1List = provinceAndCityData
   }
 
 }

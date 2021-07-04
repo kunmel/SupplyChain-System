@@ -196,6 +196,61 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/QueryFinanceBySupplier": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询所有",
+                "parameters": [
+                    {
+                        "description": "Finance",
+                        "name": "Finance",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/v1.FinanceBySupplierQueryRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryOrder": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询全部订单",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/QueryOrderByBuyer": {
             "post": {
                 "produces": [
@@ -301,6 +356,28 @@ var doc = `{
                         }
                     }
                 ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/app.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/QueryProduct": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "查询全部货品",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -835,12 +912,21 @@ var doc = `{
                 }
             }
         },
+        "v1.FinanceBySupplierQueryRequestBody": {
+            "type": "object",
+            "properties": {
+                "Supplier": {
+                    "description": "申请人",
+                    "type": "string"
+                }
+            }
+        },
         "v1.FinanceRequestBody": {
             "type": "object",
             "properties": {
                 "Amount": {
                     "description": "申请金额",
-                    "type": "number"
+                    "type": "string"
                 },
                 "Desc": {
                     "description": "申请描述",
@@ -871,7 +957,7 @@ var doc = `{
         "v1.OrderByBuyerQueryRequestBody": {
             "type": "object",
             "properties": {
-                "buyer": {
+                "Buyer": {
                     "description": "发起企业",
                     "type": "string"
                 }
@@ -880,7 +966,7 @@ var doc = `{
         "v1.OrderByIDQueryRequestBody": {
             "type": "object",
             "properties": {
-                "buyer": {
+                "ID": {
                     "description": "订单ID",
                     "type": "string"
                 }
@@ -889,7 +975,7 @@ var doc = `{
         "v1.OrderBySellerQueryRequestBody": {
             "type": "object",
             "properties": {
-                "seller": {
+                "Seller": {
                     "description": "供货商",
                     "type": "string"
                 }
@@ -898,21 +984,69 @@ var doc = `{
         "v1.OrderRequestBody": {
             "type": "object",
             "properties": {
-                "buyer": {
-                    "description": "订单总金额",
-                    "type": "number"
+                "Address": {
+                    "description": "收货地址",
+                    "type": "string"
                 },
-                "price": {
+                "Buyer": {
+                    "description": "发起企业",
+                    "type": "string"
+                },
+                "BuyerID": {
+                    "description": "企业ID",
+                    "type": "string"
+                },
+                "CreateTime": {
+                    "description": "创建时间",
+                    "type": "string"
+                },
+                "Deadline": {
+                    "description": "截止日期",
+                    "type": "string"
+                },
+                "GoodsID": {
+                    "description": "货品ID",
+                    "type": "string"
+                },
+                "GoodsName": {
+                    "description": "货品名称",
+                    "type": "string"
+                },
+                "GoodsNum": {
+                    "description": "货品数量",
+                    "type": "string"
+                },
+                "ID": {
+                    "description": "订单ID",
+                    "type": "string"
+                },
+                "OrderAmount": {
+                    "description": "订单总金额",
+                    "type": "string"
+                },
+                "Remark": {
+                    "description": "备注",
+                    "type": "string"
+                },
+                "Seller": {
+                    "description": "供货商",
+                    "type": "string"
+                },
+                "SellerID": {
+                    "description": "供应商ID",
+                    "type": "string"
+                },
+                "Status": {
+                    "description": "订单状态",
+                    "type": "string"
+                },
+                "TransferID": {
                     "description": "物流ID",
                     "type": "string"
                 },
-                "salePeriod": {
-                    "description": "备注",
-                    "type": "integer"
-                },
-                "seller": {
-                    "description": "订单状态",
-                    "type": "integer"
+                "Transferstatus": {
+                    "description": "物流状态",
+                    "type": "string"
                 }
             }
         },
@@ -941,7 +1075,7 @@ var doc = `{
         "v1.ProductByMaterialQueryRequestBody": {
             "type": "object",
             "properties": {
-                "price": {
+                "Material": {
                     "description": "材料",
                     "type": "string"
                 }
@@ -959,7 +1093,7 @@ var doc = `{
         "v1.ProductBySupplierQueryRequestBody": {
             "type": "object",
             "properties": {
-                "buyer": {
+                "Supplier": {
                     "description": "供应商",
                     "type": "string"
                 }
@@ -968,7 +1102,7 @@ var doc = `{
         "v1.ProductByWorkmanshipQueryRequestBody": {
             "type": "object",
             "properties": {
-                "salePeriod": {
+                "Workmanship": {
                     "description": "制作工艺",
                     "type": "string"
                 }
@@ -977,36 +1111,59 @@ var doc = `{
         "v1.ProductRequestBody": {
             "type": "object",
             "properties": {
+                "AddDate": {
+                    "description": "上架时间",
+                    "type": "string"
+                },
                 "Amount": {
                     "description": "货品数量",
                     "type": "integer"
                 },
                 "GoodType": {
                     "description": "货品类型",
-                    "type": "string"
+                    "type": "integer"
                 },
                 "GoodsID": {
                     "description": "货品ID",
+                    "type": "string"
+                },
+                "Material": {
+                    "description": "材料",
                     "type": "string"
                 },
                 "Name": {
                     "description": "货品名称",
                     "type": "string"
                 },
-                "buyer": {
-                    "description": "供应商",
-                    "type": "string"
+                "Price": {
+                    "description": "价格",
+                    "type": "integer"
                 },
-                "price": {
-                    "description": "联系方式",
-                    "type": "string"
-                },
-                "salePeriod": {
+                "Remark": {
                     "description": "备注",
                     "type": "string"
                 },
-                "seller": {
-                    "description": "上架时间",
+                "ShippingArea": {
+                    "description": "发货地区",
+                    "type": "string"
+                },
+                "Standards": {
+                    "description": "规格",
+                    "type": "string"
+                },
+                "Supplier": {
+                    "description": "供应商",
+                    "type": "string"
+                },
+                "SupplierID": {
+                    "type": "string"
+                },
+                "Tel": {
+                    "description": "联系方式",
+                    "type": "string"
+                },
+                "Workmanship": {
+                    "description": "制作工艺",
                     "type": "string"
                 }
             }
@@ -1014,13 +1171,13 @@ var doc = `{
         "v1.UpdateOrderStatusRequestBody": {
             "type": "object",
             "properties": {
-                "buyer": {
+                "ID": {
                     "description": "订单ID",
                     "type": "string"
                 },
-                "seller": {
+                "Status": {
                     "description": "订单状态",
-                    "type": "integer"
+                    "type": "string"
                 }
             }
         },
@@ -1044,12 +1201,16 @@ var doc = `{
         "v1.UpdateTransferStatusRequestBody": {
             "type": "object",
             "properties": {
-                "buyer": {
+                "ID": {
                     "description": "订单ID",
                     "type": "string"
                 },
-                "price": {
+                "TransferID": {
                     "description": "物流ID",
+                    "type": "string"
+                },
+                "Transferstatus": {
+                    "description": "物流状态",
                     "type": "string"
                 }
             }
@@ -1060,11 +1221,37 @@ var doc = `{
                 "ID": {
                     "description": "ID",
                     "type": "string"
+                },
+                "account": {
+                    "description": "账号",
+                    "type": "string"
+                },
+                "identity": {
+                    "description": "身份",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "具体名字",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
                 }
             }
         },
         "v1.UserByIDQueryRequestBody": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "account": {
+                    "description": "账号",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                }
+            }
         }
     }
 }`

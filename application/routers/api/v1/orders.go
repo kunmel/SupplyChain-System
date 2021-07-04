@@ -7,50 +7,76 @@ import (
 	"github.com/gin-gonic/gin"
 	bc "github.com/togettoyou/blockchain-real-estate/application/blockchain"
 	"github.com/togettoyou/blockchain-real-estate/application/pkg/app"
+	"github.com/w3liu/go-common/constant/timeformat"
 	"net/http"
-	"strconv"
+	"os"
+	"sync/atomic"
+	"time"
 )
 
 type OrderRequestBody struct {
-	ID              string	`json:"buyer"` //订单ID
-	Buyer 			string  `json:"buyer"` //发起企业
-	Seller          string  `json:"seller"`       //供货商
-	BuyerID			string  `json:"seller"`       //企业ID
-	SellerID		string  `json:"seller"`       //供应商ID
-	Address			string  `json:"seller"`       //收货地址
-	GoodsID       	string `json:"price"`        //货品ID
-	GoodsName		string `json:"price"`        //货品名称
-	GoodsNum   		int     `json:"salePeriod"`   //货品数量
-	OrderAmount 	float64  `json:"buyer"` //订单总金额
-	CreateTime      string `json:"price"`        //创建时间
-	Deadline  	    int     `json:"salePeriod"`   //截止日期
-	Remark 			int     `json:"salePeriod"`   //备注
-	TransferStatus	string `json:"price"`        //物流状态
-	TransferID		string `json:"price"`        //物流ID
-	Status       	int  `json:"seller"`       //订单状态
+	ID              string	`json:"ID"` //订单ID
+	Buyer 			string  `json:"Buyer"` //发起企业
+	Seller          string  `json:"Seller"`       //供货商
+	BuyerID			string  `json:"BuyerID"`       //企业ID
+	SellerID		string  `json:"SellerID"`       //供应商ID
+	Address			string  `json:"Address"`       //收货地址
+	GoodsID       	string `json:"GoodsID"`        //货品ID
+	GoodsName		string `json:"GoodsName"`        //货品名称
+	GoodsNum   		string     `json:"GoodsNum"`   //货品数量
+	OrderAmount 	string  `json:"OrderAmount"` //订单总金额
+	CreateTime      string `json:"CreateTime"`        //创建时间
+	Deadline  	    string     `json:"Deadline"`   //截止日期
+	Remark 			string     `json:"Remark"`   //备注
+	Transferstatus	string `json:"Transferstatus"`        //物流状态
+	TransferID		string `json:"TransferID"`        //物流ID
+	Status       	string  `json:"Status"`       //订单状态
 }
 
 type OrderByIDQueryRequestBody struct {
-	ID 	string  `json:"buyer"` //订单ID
+	ID 	string  `json:"ID"` //订单ID
 }
 
 type OrderByBuyerQueryRequestBody struct {
-	Buyer 			string  `json:"buyer"` //发起企业
+	Buyer 			string  `json:"Buyer"` //发起企业
 }
 
 type OrderBySellerQueryRequestBody struct {
-	Seller   string  `json:"seller"`       //供货商
+	Seller   string  `json:"Seller"`       //供货商
 }
 
 type UpdateOrderStatusRequestBody struct {
-	ID 		  string    `json:"buyer"` //订单ID
-	Status    int  		`json:"seller"`       //订单状态
+	ID 		  string    `json:"ID"` //订单ID
+	Status    string  		`json:"Status"`       //订单状态
 }
 
 type UpdateTransferStatusRequestBody struct {
-	ID 		  		string    `json:"buyer"` //订单ID
-	TransferStatus	string `json:"price"`        //物流状态
-	TransferID		string `json:"price"`        //物流ID
+	ID 		  		string    `json:"ID"` //订单ID
+	Transferstatus	string `json:"Transferstatus"`        //物流状态
+	TransferID		string `json:"TransferID"`        //物流ID
+}
+
+var num int64
+func Generate(t time.Time) string {
+	s := t.Format(timeformat.Continuity)
+	m := t.UnixNano()/1e6 - t.UnixNano()/1e9*1e3
+	ms := sup(m, 3)
+	p := os.Getpid() % 1000
+	ps := sup(int64(p), 3)
+	i := atomic.AddInt64(&num, 1)
+	r := i % 10000
+	rs := sup(r, 3)
+	n := fmt.Sprintf("%s%s%s%s", s, ms, ps, rs)
+	return n
+}
+
+//对长度不足n的数字前面补0
+func sup(i int64, n int) string {
+	m := fmt.Sprintf("%d", i)
+	for len(m) < n {
+		m = fmt.Sprintf("0%s", m)
+	}
+	return m
 }
 
 // @Summary 存储到数据库
@@ -67,10 +93,10 @@ func StoreOrder(c *gin.Context) {
 		appG.Response(http.StatusBadRequest, "失败", fmt.Sprintf("参数出错%s", err.Error()))
 		return
 	}
-	if body.ID == "" {
-		appG.Response(http.StatusBadRequest, "失败", "订单ID不能为空")
-		return
-	}
+
+	time := time.Now()
+	body.ID = Generate(time)
+	fmt.Printf("map值为%v\n", body.ID)
 
 	var bodyBytes [][]byte
 	bodyBytes = append(bodyBytes, []byte(body.ID))
@@ -81,14 +107,14 @@ func StoreOrder(c *gin.Context) {
 	bodyBytes = append(bodyBytes, []byte(body.Address))
 	bodyBytes = append(bodyBytes, []byte(body.GoodsID))
 	bodyBytes = append(bodyBytes, []byte(body.GoodsName))
-	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.GoodsNum)))
-	bodyBytes = append(bodyBytes, []byte(strconv.FormatFloat(body.OrderAmount, 'E', -1, 64)))
+	bodyBytes = append(bodyBytes, []byte(body.GoodsNum))
+	bodyBytes = append(bodyBytes, []byte(body.OrderAmount))
 	bodyBytes = append(bodyBytes, []byte(body.CreateTime))
-	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.Deadline)))
-	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.Remark)))
-	bodyBytes = append(bodyBytes, []byte(body.TransferStatus))
+	bodyBytes = append(bodyBytes, []byte(body.Deadline))
+	bodyBytes = append(bodyBytes, []byte(body.Remark))
+	bodyBytes = append(bodyBytes, []byte(body.Transferstatus))
 	bodyBytes = append(bodyBytes, []byte(body.TransferID))
-	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.Status)))
+	bodyBytes = append(bodyBytes, []byte(body.Status))
 	//调用智能合约
 	_, err := bc.ChannelExecute("StoreOrder", bodyBytes)
 	if err != nil {
@@ -96,6 +122,36 @@ func StoreOrder(c *gin.Context) {
 		return
 	}
 	appG.Response(http.StatusOK, "成功", fmt.Sprintf("保存成功"))
+}
+
+// @Summary 查询全部订单
+// @Produce  json
+// @Success 200 {object} app.Response
+// @Failure 500 {object} app.Response
+// @Router /api/v1/QueryOrder [post]
+func QueryOrder(c *gin.Context) {
+	appG := app.Gin{C: c}
+	body := new(OrderByIDQueryRequestBody)
+	//解析Body参数
+	if err := c.ShouldBind(body); err != nil {
+		appG.Response(http.StatusBadRequest, "失败", fmt.Sprintf("参数出错%s", err.Error()))
+		return
+	}
+	var bodyBytes [][]byte
+
+	//调用智能合约
+	resp, err := bc.ChannelQuery("QueryOrderByID", bodyBytes)
+	if err != nil {
+		appG.Response(http.StatusInternalServerError, "失败", err.Error())
+		return
+	}
+	// 反序列化json
+	var data []map[string]interface{}
+	if err = json.Unmarshal(bytes.NewBuffer(resp.Payload).Bytes(), &data); err != nil {
+		appG.Response(http.StatusInternalServerError, "反序列化失败", err.Error())
+		return
+	}
+	appG.Response(http.StatusOK, "成功", data)
 }
 
 // @Summary 按订单ID查询，具体查询某一个订单
@@ -163,7 +219,7 @@ func QueryOrderByIDTest(c *gin.Context) {
 		"\"CreateTime\":\"2021/6/11\","+
 		"\"Deadline\":\"2021/6/14\","+
 		"\"Remark\":\"无\","+
-		"\"TransferStatus\":\"未发货\","+
+		"\"Transferstatus\":\"未发货\","+
 		"\"TransferID\":\"231315213\","+
 		"\"Status\":\"待确认\"}")
 
@@ -201,12 +257,20 @@ func QueryOrderByBuyer(c *gin.Context) {
 		return
 	}
 	// 反序列化json
+
 	var data []map[string]interface{}
+	var data1 map[string]interface{}
 	if err = json.Unmarshal(bytes.NewBuffer(resp.Payload).Bytes(), &data); err != nil {
-		appG.Response(http.StatusInternalServerError, "失败", err.Error())
-		return
+		if err = json.Unmarshal(bytes.NewBuffer(resp.Payload).Bytes(), &data1); err != nil{
+			appG.Response(http.StatusInternalServerError, "失败", err.Error())
+			return
+		}else {
+			appG.Response(http.StatusOK, "成功", data1)
+		}
+	}else {
+		appG.Response(http.StatusOK, "成功", data)
 	}
-	appG.Response(http.StatusOK, "成功", data)
+
 }
 
 // @Summary 按供货商查询订单内容
@@ -259,7 +323,7 @@ func UpdateStatus(c *gin.Context) {
 
 	var bodyBytes [][]byte
 	bodyBytes = append(bodyBytes, []byte(body.ID))
-	bodyBytes = append(bodyBytes, []byte(strconv.Itoa(body.Status)))
+	bodyBytes = append(bodyBytes, []byte(body.Status))
 
 	//调用智能合约
 	_, err := bc.ChannelExecute("UpdateStatus", bodyBytes)
@@ -288,10 +352,10 @@ func UpdateTransferStatus(c *gin.Context) {
 	var bodyBytes [][]byte
 	bodyBytes = append(bodyBytes, []byte(body.ID))
 	bodyBytes = append(bodyBytes, []byte(body.TransferID))
-	bodyBytes = append(bodyBytes, []byte(body.TransferStatus))
+	bodyBytes = append(bodyBytes, []byte(body.Transferstatus))
 
 	//调用智能合约
-	_, err := bc.ChannelExecute("UpdateStatus", bodyBytes)
+	_, err := bc.ChannelExecute("UpdateTransferStatus", bodyBytes)
 	if err != nil {
 		appG.Response(http.StatusInternalServerError, "失败", err.Error())
 		return
