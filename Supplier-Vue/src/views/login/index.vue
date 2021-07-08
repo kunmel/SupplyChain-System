@@ -158,7 +158,7 @@ export default {
         message: '<strong>密码：<i>123</i></strong>',
         type: 'success',
         position: 'bottom-left',
-        offset: 80
+        offset: 90
       }),
             this.$notify({
         title: '测试企业账号：qiye',

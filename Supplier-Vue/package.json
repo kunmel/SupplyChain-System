@@ -1,7 +1,7 @@
 {
   "name": "vue-cms",
   "version": "1.0.0",
-  "description": "用vue做的一个内容管理系统",
+  "description": "BIT-Supply-Chain",
   "author": "yu",
   "private": true,
   "scripts": {

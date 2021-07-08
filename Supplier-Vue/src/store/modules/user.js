@@ -82,7 +82,7 @@ const user = {
     register({ commit }, userInfo) {
       return new Promise((resolve, reject) => {
         register(userInfo).then(resp => {
-          alert("用户注册成功")
+          //alert("用户注册成功")
           let data = resp.data
           setToken(data.token)
           commit(SET_TOKEN, data.token)

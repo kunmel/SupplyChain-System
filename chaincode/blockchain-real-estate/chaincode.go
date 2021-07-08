@@ -34,40 +34,40 @@ func (t *BlockChainRealEstate) Init(stub shim.ChaincodeStubInterface) pb.Respons
 	}
 
 	fmt.Println("-----------初始化货品信息-------------")
-	product1:=lib.Product{GoodsID: "product1",Name: "钢材",Goodtype:1,Amount: 16543,Price: 534,Standards: "#210",Material: "精钢",
+	product1:=lib.Product{GoodsID: "product1",Name: "圆管",Goodtype:1,Amount: 16543,Price: 534,Standards: "#210",Material: "精钢",
 		Workmanship: "锻造",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-6",Tel: "15678643587",Shippingarea: "山东省 青岛市",Remark: "无"}
 	if err:=utils.WriteLedger(product1,stub,lib.ProductKey,[]string{product1.GoodsID});err!=nil{
 		return shim.Error(fmt.Sprintf("写入Product失败%s", err))
 	}
 
-	product3:=lib.Product{GoodsID: "product3",Name: "钢材",Goodtype:1,Amount: 875,Price: 543,Standards: "#270",Material: "精钢",
-		Workmanship: "锻造",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-7",Tel: "15789087654",Shippingarea: "河北省 石家庄市",Remark: "无"}
+	product3:=lib.Product{GoodsID: "product3",Name: "圆钢丝",Goodtype:1,Amount: 875,Price: 543,Standards: "#270",Material: "精钢",
+		Workmanship: "冷加工",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-7",Tel: "15789087654",Shippingarea: "河北省 石家庄市",Remark: "无"}
 	if err:=utils.WriteLedger(product3,stub,lib.ProductKey,[]string{product3.GoodsID});err!=nil{
 		return shim.Error(fmt.Sprintf("写入Product失败%s", err))
 	}
-	product4:=lib.Product{GoodsID: "product4",Name: "钢材",Goodtype:1,Amount: 876,Price: 234,Standards: "#250",Material: "精钢",
+	product4:=lib.Product{GoodsID: "product4",Name: "扁形钢丝",Goodtype:1,Amount: 876,Price: 234,Standards: "#250",Material: "精钢",
 		Workmanship: "锻造",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-6",Tel: "15789098789",Shippingarea: "香港特别行政区 九龙 黄大仙区",Remark: "无"}
 	if err:=utils.WriteLedger(product4,stub,lib.ProductKey,[]string{product4.GoodsID});err!=nil{
 		return shim.Error(fmt.Sprintf("写入Product失败%s", err))
 	}
 
-	product2:=lib.Product{GoodsID: "product2",Name: "钢材",Goodtype:1,Amount: 986,Price: 2534,Standards: "#280",Material: "精钢",
+	product2:=lib.Product{GoodsID: "product2",Name: "三角形钢丝",Goodtype:1,Amount: 986,Price: 2534,Standards: "#280",Material: "精钢",
 		Workmanship: "锻造",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-7",Tel: "13678749879",Shippingarea: "河南省 漯河市",Remark: "无"}
 	if err:=utils.WriteLedger(product2,stub,lib.ProductKey,[]string{product2.GoodsID});err!=nil{
 		return shim.Error(fmt.Sprintf("写入Product失败%s", err))
 	}
-	product5:=lib.Product{GoodsID: "product5",Name: "钢材",Goodtype:1,Amount: 866,Price: 312,Standards: "#310",Material: "精钢",
+	product5:=lib.Product{GoodsID: "product5",Name: "方形管",Goodtype:1,Amount: 866,Price: 312,Standards: "#310",Material: "精钢",
 		Workmanship: "锻造",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-6",Tel: "13765848671",Shippingarea: "辽宁省 大连市",Remark: "无"}
 	if err:=utils.WriteLedger(product5,stub,lib.ProductKey,[]string{product5.GoodsID});err!=nil{
 		return shim.Error(fmt.Sprintf("写入Product失败%s", err))
 	}
 
-	product6:=lib.Product{GoodsID: "product6",Name: "钢材",Goodtype:1,Amount: 89631,Price: 321,Standards: "#300",Material: "精钢",
+	product6:=lib.Product{GoodsID: "product6",Name: "钢板",Goodtype:1,Amount: 89631,Price: 321,Standards: "4mm",Material: "精钢",
 		Workmanship: "锻造",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-7",Tel: "176875467643",Shippingarea: "吉林省 吉林市",Remark: "无"}
 	if err:=utils.WriteLedger(product6,stub,lib.ProductKey,[]string{product6.GoodsID});err!=nil{
 		return shim.Error(fmt.Sprintf("写入Product失败%s", err))
 	}
-	product7:=lib.Product{GoodsID: "product7",Name: "钢材",Goodtype:1,Amount: 143,Price: 123,Standards: "#50",Material: "精钢",
+	product7:=lib.Product{GoodsID: "product7",Name: "钢板",Goodtype:1,Amount: 143,Price: 123,Standards: "25mm",Material: "精钢",
 		Workmanship: "锻造",Supplier:"gongyingshang",SupplierID: "user2",Adddate: "2020-6-6",Tel: "15674321678",Shippingarea: "陕西省 西安市",Remark: "无"}
 	if err:=utils.WriteLedger(product7,stub,lib.ProductKey,[]string{product7.GoodsID});err!=nil{
 		return shim.Error(fmt.Sprintf("写入Product失败%s", err))

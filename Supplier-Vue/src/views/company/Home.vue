@@ -21,35 +21,41 @@
         <el-row gutter="20" style="margin-left:120px; margin-top:10px;">
           <el-col v-for="(item,i) in tableData.slice(0,4)" :key="i" span="5" style="height:220px" >
             <el-card style="height:220px">
+              <div @click="gotoGoods()">
               <p class="el-icon-goods" style="  margin-left:10px;margin-top:15px;color:grey">货品名称：{{item.Name}}</p>
               <p class="el-icon-s-home" style="  margin-left:10px;margin-top:15px;color:grey">库存：{{item.Amount}}</p>
               <p class="el-icon-s-shop" style="  margin-left:10px;margin-top:15px;color:grey">供应商：{{item.Supplier}}</p>
               <p class="el-icon-phone" style="  margin-left:10px;margin-top:15px;color:grey">联系方式:</p>
                <p  style="  margin-left:30px;margin-top:10px;color:grey">{{item.Tel}}</p>
+              </div>
             </el-card>
           </el-col>
         </el-row>
 
         <el-row gutter="20" style="margin-left:120px; margin-top:10px;">
-          <el-col v-for="(item,i) in tableData.slice(4,8)" :key="i" span="5" style="height:220px" >
+          <el-col v-for="(item,i) in tableData.slice(4,8)" :key="i" span="5" style="height:220px">
             <el-card style="height:220px">
+              <div @click="gotoGoods()">
               <p class="el-icon-goods" style="  margin-left:10px;margin-top:15px;color:grey">货品名称：{{item.Name}}</p>
               <p class="el-icon-s-home" style="  margin-left:10px;margin-top:15px;color:grey">库存：{{item.Amount}}</p>
               <p class="el-icon-s-shop" style="  margin-left:10px;margin-top:15px;color:grey">供应商：{{item.Supplier}}</p>
               <p class="el-icon-phone" style="  margin-left:10px;margin-top:15px;color:grey">联系方式:</p>
                <p  style="  margin-left:30px;margin-top:10px;color:grey">{{item.Tel}}</p>
+              </div>
             </el-card>
           </el-col>
         </el-row> 
 
         <el-row gutter="20" style="margin-left:120px; margin-top:30px;">
-          <el-col v-for="(item,i) in tableData.slice(8,11)" :key="i" span="5" style="height:220px">
-            <el-card style="height:220px">
+          <el-col v-for="(item,i) in tableData.slice(8,11)" :key="i" span="5" style="height:220px" >
+            <el-card style="height:220px" >
+              <div @click="gotoGoods()">
               <p class="el-icon-goods" style="  margin-left:10px;margin-top:15px;color:grey">货品名称：{{item.Name}}</p>
               <p class="el-icon-s-home" style="  margin-left:10px;margin-top:15px;color:grey">库存：{{item.Amount}}</p>
               <p class="el-icon-s-shop" style="  margin-left:10px;margin-top:15px;color:grey">供应商：{{item.Supplier}}</p>
               <p class="el-icon-phone" style="  margin-left:10px;margin-top:15px;color:grey">联系方式:</p>
                <p  style="  margin-left:30px;margin-top:10px;color:grey">{{item.Tel}}</p>
+              </div>
             </el-card>
           </el-col>
           <el-col span="5">

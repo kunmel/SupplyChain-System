@@ -171,7 +171,12 @@ import { mapActions } from 'vuex'
                   console.log("StoreUser")
                   console.log(response)
                 })
-                // this.$router.go(0);
+                this.$message({
+                  message: '注册成功，跳转至登陆界面',
+                  type: 'success'
+                });
+                //this.$parent.changemode()
+                this.$router.go(0);
               }).catch(() => {
                 this.loading = false
               })

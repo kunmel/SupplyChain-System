@@ -6,7 +6,7 @@
         <div class="nav">
           <ul>
             <li >
-              欢迎  {{this.userName}}
+              欢迎  {{userName}}
             </li>
             <li :class="shopCart">
               <router-link to="/orders">

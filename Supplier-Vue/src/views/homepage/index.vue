@@ -22,8 +22,8 @@
         </div>
         </el-col>
         <el-col :span="6">
-        <div class="home-detail-item" style="background: #2196f3"  >
-          <div style="padding: 30px 0 0px 0;text-align: center;font-size: 35px;color: white;">{{'更新时间'}}</div>
+        <div class="home-detail-item" style="background: #2196f3"   @click="gotoUrll('/finance/all')" >
+          <div style="padding: 30px 0 0px 0;text-align: center;font-size: 35px;color: white;">{{'融资管理'}}</div>
           <!-- <div style="padding: 10px 0 0px 0;text-align: center;font-size: 30px;color: white;">{{'待改'}}</div> -->
         </div>
         </el-col>

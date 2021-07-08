@@ -20,7 +20,7 @@
           <div class="avatar-wrapper">
             <img class="user-avatar" src="@/assets/provider.png" >
             <div class="username-wrapper">
-              <span class="user-name">{{this.name}}</span>
+              <span class="user-name">{{name}}</span>
               <i class="el-icon-caret-bottom"></i>
             </div>
           </div>
@@ -46,7 +46,12 @@ import { getToken } from '@/common/auth'
 import Screenfull from '@/components/screenfull'
 import ChangeTheme from '@/components/theme'
 export default {
-  name: getToken(),
+    data() {
+    return {
+      name: '',
+    }
+  },
+  
   components: {
     Screenfull,
     ChangeTheme
@@ -60,7 +65,7 @@ export default {
     ...mapActions({
       userLogout: 'logout'
     }),
-    
+
     logout() {
       const loading = this.$loading({
         lock: true
@@ -74,6 +79,10 @@ export default {
         loading.close()
       })
     }
+  },
+  created(){
+  this.name = getToken()
+  console.log("用户的name为",getToken())
   }
 }
 </script>
@@ -95,7 +104,7 @@ export default {
       .avatar-wrapper
         cursor pointer
     .avatar-container /deep/ .user-avatar
-          width 30px
+          width 100px
           height 30px
           border-radius 50%
           vertical-align middle
@@ -117,7 +126,7 @@ export default {
 .top-navbar /deep/ .theme-container {
   position absolute
   top 15px
-  right 135px
+  right 200px
   color #fff
   font-size 24px
   cursor pointer

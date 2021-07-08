@@ -202,6 +202,10 @@ export default {
         }
         DeleteProduct(data).then(res => {
         console.log("DeleteProduct",res)
+        this.$message({
+          message: '下架货品成功！',
+          type: 'success'
+        });
         this.$router.go(0);
          })
     },
@@ -224,6 +228,10 @@ export default {
           }
         UpdateProductByAmount(data).then(res => {
         console.log("UpdateProductByAmount",res)
+        this.$message({
+          message: '更新货品库存成功！',
+          type: 'success'
+        });
         this.$router.go(0);
       })
   
