@@ -6,10 +6,10 @@
 curl -sSL https://get.daocloud.io/docker | sh
 ```
 
-（如果是root用户，请忽略）普通用户需要设置成非root用户也能执行docker，需要将用户加入docker组（例如你的登录用户名是togettoyou）
+（如果是root用户，请忽略）普通用户需要设置成非root用户也能执行docker，需要将用户加入docker组（例如你的登录用户名是admin）
 
 ```shell
-sudo usermod -aG docker togettoyou # 需要重启生效
+sudo usermod -aG docker admin # 需要重启生效
 ```
 
 # 2. Docker 更换阿里镜像源
